@@ -1,5 +1,6 @@
-import user from "../models/User.js";       
-import {webhook} from "svix";
+import user from "../models/User.js";
+import pkg from "svix";
+const {webhook} = pkg;
 
 const clerkWebhook=async(req,res)=>{
     try{
@@ -21,7 +22,7 @@ const {type,data}=req.body;
 const userData={
     _id:data.id,
     email:data.email_addresses[0].email_address,
-    Username:data.first_name + " " + data.last_name,
+    username:data.first_name + " " + data.last_name,
     image:data.image_url,
 }
 //Switch Cases for different Events
