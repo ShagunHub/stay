@@ -5,7 +5,7 @@ const clerkWebhook=async(req,res)=>{
     try{
 
         //create a Svix instance with clerk webhook secret
-const whook=new webhooj(process.env.CLERK_WEBHOOK_SECRET);
+const whook=new webhook(process.env.CLERK_WEBHOOK_SECRET);
 
 //Getting header
 const headers={
@@ -35,7 +35,7 @@ switch(type){
    break;  
  }
   case "user.deleted":{
-   await user.findByIdAndDeleted(data.id);
+   await user.findByIdAndDelete(data.id);
    break;  
  }
  default:

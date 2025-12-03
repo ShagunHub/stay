@@ -6,8 +6,8 @@ username:{type:String,required:true},
 email:{type:String,required:true},   
 image:{type:String,required:true},   
 role:{type:String,enum:["user","hotelOwner"],default:"user"},
-recentSearchCitites:[{type:String,default:true}], 
-},{timeStamps:true}
+recentSearchCities:[{type:String,default:true}],
+},{timestamps:true}
 );
 const user=mongoose.model("User",userSchema);
 export default user;
