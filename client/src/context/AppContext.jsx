@@ -16,6 +16,41 @@ const {getToken}=useAuth();
 const [isOwner, setIsOwner]=useState(false);
 const [showHotelReg, setShowHotelReg]=useState(false);
 const [searchedCities, setSearchedCities]=useState([]);
+const [rooms,setRooms]=useState([]);
+
+const fetchRooms=async()=>{
+    try{
+const {data}=await axios.get('/api/rooms');
+if(data.success){
+    setRooms(data.rooms)
+} else{
+    toast.error(data.message);
+}
+    } catch(error){
+        toast
+    }
+}
+useEffect(()=>{
+    fetchRooms();
+},[])
+
+const syncUserToDB=async()=>{
+    try{
+        // First, sync user to DB
+        const syncData = await axios.post('/api/user/sync', {
+            userId: user.id,
+            email: user.primaryEmailAddress?.emailAddress,
+            username: user.firstName + " " + user.lastName,
+            image: user.imageUrl
+        });
+        
+        if(syncData.data.success){
+            console.log("User synced to DB");
+        }
+    } catch(error){
+        console.error("Sync error:", error.message);
+    }
+}
 
 const fetchUser=async()=>{
     try{
@@ -30,16 +65,18 @@ const fetchUser=async()=>{
         },3000)
        }
     } catch(error){
-       toast.error(error.message);
+       console.error("Fetch user error:", error.message);
     }
 }
+
 useEffect(()=>{
     if(user){
-   fetchUser();     
+        syncUserToDB().then(()=>fetchUser());     
     }
-},[user])
+},[user, getToken])
     const value={
-        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHotelReg, setShowHotelReg, searchedCities, setSearchedCities
+        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHotelReg, setShowHotelReg, searchedCities, 
+        setSearchedCities, rooms, setRooms
     }
     return(
         <AppContext.Provider value={value}>

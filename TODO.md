@@ -1,4 +1,4 @@
-- [ ] Fix checkAvailability function syntax in server/controllers/bookingController.js
-- [ ] Correct Room.findBy to Room.findById in createBooking function
-- [ ] Correct booking.create to Booking.create in createBooking function
-- [ ] Test the server to ensure it runs without errors
+- [x] Install browser-image-compression library in client
+- [x] Modify AddRoom.jsx to compress images on selection
+- [x] Test the image compression functionality
+- [x] Style image previews to fit upload boxes (80x80px, object-cover, rounded)

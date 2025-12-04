@@ -15,7 +15,12 @@ connectCloudinary();
 
 
 const app=express();
-app.use(cors());    // Enable Cross-origin Resource Sharing
+// Enable Cross-origin Resource Sharing with explicit origin and credentials
+app.use(cors({
+	origin: process.env.CLIENT_ORIGIN || 'http://localhost:5174',
+	credentials: true,
+	methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+}));
 
 //MiddleWare
 app.use(express.json())
@@ -29,6 +34,19 @@ app.use('/api/user',userRouter);
 app.use('/api/hotels',hotelRouter);
 app.use('/api/rooms',roomRouter);
 app.use('/api/bookings',bookingRouter);
+
+// Temporary debug endpoints
+app.get('/api/debug/headers', (req, res) => {
+	res.json({
+		headers: req.headers,
+		auth: req.auth || null,
+		userId: req.auth?.userId || null,
+	});
+});
+
+app.post('/api/debug/echo', (req, res) => {
+	res.json({ body: req.body, headers: req.headers, auth: req.auth || null });
+});
 
 
 const PORT=process.env.PORT || 3000;

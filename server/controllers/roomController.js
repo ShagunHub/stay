@@ -6,13 +6,19 @@ import Room from "../models/Room.js";
 export const createRoom=async(req,res)=>{
 try{
 const {roomType,pricePerNight,amenities}=req.body;
-const hotel=await Hotel.findOne({owner:req.auth.user._id});
+const hotel=await Hotel.findOne({owner:req.user._id});
 if(!hotel) return res.json({success:false ,message:"No Hotel found"});
 
-//upload images to cloudinary
+//upload images to cloudinary with resizing/optimization
 const uploadImages=req.files.map(async (file)=>{
-   const response= await cloudinary.uploader.upload(file.path);
-   return response.secure_url;
+     // transform images to limit size and use automatic quality
+     const options = { 
+         transformation: [
+             { width: 1200, height: 800, crop: "limit", quality: "auto" },
+         ],
+     };
+     const response= await cloudinary.uploader.upload(file.path, options);
+     return response.secure_url;
 })
 const images= await Promise.all(uploadImages)
 
@@ -48,7 +54,7 @@ res.json({success:false ,message:error.message});
 //API  to get all rooms for a specific hotel
 export const getOwnerRooms=async(req,res)=>{
 try{
-    const hotelData=await Hotel({owner: req.auth.user._id});
+    const hotelData=await Hotel.findOne({owner: req.user._id});
     const rooms=await Room.find({hotel: hotelData._id.toString()}).populate("hotel");
     res.json({success:true ,rooms});
 }catch(error){

@@ -1,11 +1,12 @@
 import React from 'react'
 import { assets } from '../assets/assets.js'
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating = 0 }) => {
+  const r = Number(rating) || 0;
   return (
     <>
       {Array(5).fill('|').map((_, index)=>(
-        <img key={index} src={rating > index ? assets.starIconFilled : assets.starIconOutlined} alt="star-icon" className='w-4.5 h-4.5'/>
+        <img key={index} src={r > index ? assets.starIconFilled : assets.starIconOutlined} alt="star-icon" className='w-4.5 h-4.5'/>
      ))}
     </>
   )

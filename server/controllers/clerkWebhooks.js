@@ -28,14 +28,27 @@ const userData={
 //Switch Cases for different Events
 switch(type){
     case "user.created":{
+      const userData={
+    _id:data.id,
+    email:data.email_addresses[0].email_address,
+    username:data.first_name + " " + data.last_name,
+    image:data.image_url,
+}
       await user.create(userData);
       break;  
     }
      case "user.updated":{
+      const userData={
+    _id:data.id,
+    email:data.email_addresses[0].email_address,
+    username:data.first_name + " " + data.last_name,
+    image:data.image_url,
+}
    await user.findByIdAndUpdate(data.id,userData);
    break;  
  }
   case "user.deleted":{
+    
    await user.findByIdAndDelete(data.id);
    break;  
  }
