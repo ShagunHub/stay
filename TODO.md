@@ -1,0 +1,4 @@
+- [ ] Fix checkAvailability function syntax in server/controllers/bookingController.js
+- [ ] Correct Room.findBy to Room.findById in createBooking function
+- [ ] Correct booking.create to Booking.create in createBooking function
+- [ ] Test the server to ensure it runs without errors
